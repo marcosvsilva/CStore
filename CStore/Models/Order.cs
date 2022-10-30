@@ -16,7 +16,7 @@ namespace CStore.Models
 
         public Payment Payment { get; set; }
 
-        public ICollection<Item> Items { get; set; }
+        public ICollection<Item> Items { get; set; } = new List<Item>();
     }
 
     [Table("Items")]
@@ -29,7 +29,7 @@ namespace CStore.Models
 
         public double UnitPrice { get; set; }
 
-        public double Discount { get; set; }
+        public double? Discount { get; set; }
 
         public double TotalPrice { get; set; }
 

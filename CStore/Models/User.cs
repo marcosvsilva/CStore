@@ -23,8 +23,10 @@ namespace CStore.Models
 
         public string Telephone { get; set; }
 
+        public string Email { get; set; }
+
         public DateTime Birthday { get; set; }
 
-        public ICollection<Product> Favorites { get; set; }
+        public ICollection<Product> Favorites { get; set; } = new List<Product>();
     }
 }
