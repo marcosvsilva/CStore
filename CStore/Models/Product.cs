@@ -20,17 +20,8 @@ namespace CStore.Models
         public Brand Brand { get; set; }
 
         public Category Category { get; set; }
-    }
 
-    [Table("Favorites")]
-    public class Favorite
-    {
-        [Key]
-        public int Id { get; set; }
-
-        public User User { get; set; }
-
-        public List<Product> Products { get; set } = List<Product>();
+        public List<User> Favorites { get; set; } = new List<User>();
     }
 
     [Table("Brands")]

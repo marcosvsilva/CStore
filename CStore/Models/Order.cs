@@ -16,7 +16,7 @@ namespace CStore.Models
 
         public Payment Payment { get; set; }
 
-        public ICollection<Item> Items { get; set; } = new List<Item>();
+        public List<Item> Items { get; set; } = new List<Item>();
     }
 
     [Table("Items")]
