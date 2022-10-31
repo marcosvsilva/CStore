@@ -8,8 +8,6 @@ string stringConnection = builder.Configuration.GetConnectionString(
 
 stringConnection = stringConnection.Replace("{user_name}", "marcos");
 stringConnection = stringConnection.Replace("{user_password}", "bybvaB-5nenxy-dixnuh");
-System.Diagnostics.Debug.WriteLine(stringConnection);
-
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
