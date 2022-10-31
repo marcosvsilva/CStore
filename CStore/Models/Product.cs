@@ -17,11 +17,15 @@ namespace CStore.Models
 
         public double Price { get; set; }
 
-        public Brand Brand { get; set; }
+        [ForeignKey("Categories")]
+        public int BrandId { get; set; }
+        public Brand? Brand { get; set; }
 
-        public Category Category { get; set; }
+        [ForeignKey("Brands")]
+        public int CategoryId { get; set; }
+        public Category? Category { get; set; }
 
-        public List<User> Favorites { get; set; } = new List<User>();
+        public List<User>? Favorites { get; set; } = new List<User>();
     }
 
     [Table("Brands")]
@@ -33,6 +37,8 @@ namespace CStore.Models
         public string Name { get; set; }
 
         public string? Description { get; set; }
+
+        public List<Product> Products { get; set; } = new List<Product>();
     }
 
     [Table("Categories")]
@@ -44,5 +50,7 @@ namespace CStore.Models
         public string Name { get; set; }
 
         public string? Description { get; set; }
+
+        public List<Product> Products { get; set; } = new List<Product>();
     }
 }

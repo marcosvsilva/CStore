@@ -11,6 +11,17 @@ namespace CStore.Context
             //pass;
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Brand>()
+                .HasMany(b => b.Products)
+                .WithOne(p => p.Brand);
+
+            modelBuilder.Entity<Category>()
+                .HasMany(c => c.Products)
+                .WithOne(p => p.Category);
+        }
+
         public DbSet<Order> Orders { get; set; }
 
         public DbSet<Item> Items { get; set; }
