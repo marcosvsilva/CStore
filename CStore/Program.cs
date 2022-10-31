@@ -6,8 +6,8 @@ var builder = WebApplication.CreateBuilder(args);
 string stringConnection = builder.Configuration.GetConnectionString(
     "DefaultString");
 
-stringConnection.Replace("user_name", "marcos");
-stringConnection.Replace("user_password", "bybvaB-5nenxy-dixnuh");
+stringConnection = stringConnection.Replace("{user_name}", "marcos");
+stringConnection = stringConnection.Replace("{user_password}", "bybvaB-5nenxy-dixnuh");
 System.Diagnostics.Debug.WriteLine(stringConnection);
 
 
