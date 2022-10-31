@@ -33,6 +33,8 @@ namespace CStore.Models
 
         public double TotalPrice { get; set; }
 
-        public Product Product { get; set; }
+        [ForeignKey("Products")]
+        public int ProductId { get; set; }
+        public Product? Product { get; set; }
     }
 }

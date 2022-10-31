@@ -24,8 +24,6 @@ namespace CStore.Models
         [ForeignKey("Brands")]
         public int CategoryId { get; set; }
         public Category? Category { get; set; }
-
-        public List<User>? Favorites { get; set; } = new List<User>();
     }
 
     [Table("Brands")]
@@ -37,8 +35,6 @@ namespace CStore.Models
         public string Name { get; set; }
 
         public string? Description { get; set; }
-
-        public List<Product> Products { get; set; } = new List<Product>();
     }
 
     [Table("Categories")]
@@ -50,6 +46,14 @@ namespace CStore.Models
         public string Name { get; set; }
 
         public string? Description { get; set; }
+    }
+
+    [Table("Favorites")]
+    public class Favorite
+    {
+        public int Id { get; set; }
+
+        public List<User> Users { get; set; } = new List<User>();
 
         public List<Product> Products { get; set; } = new List<Product>();
     }

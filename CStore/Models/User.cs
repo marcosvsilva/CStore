@@ -27,6 +27,7 @@ namespace CStore.Models
 
         public DateTime Birthday { get; set; }
 
-        public List<Product> Favorites { get; set; } = new List<Product>();
+        [NotMapped]
+        public List<Favorite> Favorites { get; set; } = new List<Favorite>();
     }
 }
