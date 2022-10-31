@@ -27,6 +27,6 @@ namespace CStore.Models
 
         public DateTime Birthday { get; set; }
 
-        public ICollection<Product> Favorites { get; set; } = new List<Product>();
+        public Favorite Favorite { get; set; }
     }
 }
