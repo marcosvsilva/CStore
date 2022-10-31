@@ -11,19 +11,19 @@ namespace CStore.Context
             //pass;
         }
 
-        private DbSet<Order> Orders { get; set; }
+        public DbSet<Order> Orders { get; set; }
 
-        private DbSet<Item> Items { get; set; }
+        public DbSet<Item> Items { get; set; }
 
-        private DbSet<Payment> Payments { get; set; }
+        public DbSet<Payment> Payments { get; set; }
 
-        private DbSet<Product> Products { get; set; }
+        public DbSet<Product> Products { get; set; }
 
-        private DbSet<Brand> Brands { get; set; }
+        public DbSet<Brand> Brands { get; set; }
 
-        private DbSet<Category> Categories { get; set; }
+        public DbSet<Category> Categories { get; set; }
 
-        private DbSet<User> Users { get; set; }
+        public DbSet<User> Users { get; set; }
     }
 }
 
