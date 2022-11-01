@@ -51,10 +51,15 @@ namespace CStore.Models
     [Table("Favorites")]
     public class Favorite
     {
+        [Key]
         public int Id { get; set; }
 
-        public List<User> Users { get; set; } = new List<User>();
+        [ForeignKey("Users")]
+        public int UserId { get; set; }
+        public User? User { get; set; }
 
-        public List<Product> Products { get; set; } = new List<Product>();
+        [ForeignKey("Products")]
+        public int ProductId { get; set; }
+        public Product? Product { get; set; }
     }
 }

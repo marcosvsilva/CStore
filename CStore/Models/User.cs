@@ -25,9 +25,9 @@ namespace CStore.Models
 
         public string Email { get; set; }
 
-        public DateTime Birthday { get; set; }
+        public DateOnly Birthday { get; set; }
 
         [NotMapped]
-        public List<Favorite> Favorites { get; set; } = new List<Favorite>();
+        public List<Product> Favorites { get; set; } = new List<Product>();
     }
 }
