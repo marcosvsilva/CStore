@@ -6,8 +6,14 @@ var builder = WebApplication.CreateBuilder(args);
 string stringConnection = builder.Configuration.GetConnectionString(
     "DefaultString");
 
-stringConnection = stringConnection.Replace("{user_name}", "marcos");
-stringConnection = stringConnection.Replace("{user_password}", "bybvaB-5nenxy-dixnuh");
+var username = System.
+    Configuration.ConfigurationManager.AppSettings["username"];
+
+var password = System.
+    Configuration.ConfigurationManager.AppSettings["password"];
+
+stringConnection = stringConnection.Replace("{user_name}", username);
+stringConnection = stringConnection.Replace("{user_password}", password);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
