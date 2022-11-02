@@ -21,25 +21,25 @@ namespace CStore.Controllers
             _context = context;
         }
 
-        // GET: api/Category
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Category>>> GetCategories()
         {
-          if (_context.Categories == null)
-          {
-              return NotFound();
-          }
+            if (_context.Categories == null)
+            {
+                return NotFound();
+            }
+
             return await _context.Categories.ToListAsync();
         }
 
-        // GET: api/Category/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Category>> GetCategory(int id)
         {
-          if (_context.Categories == null)
-          {
-              return NotFound();
-          }
+            if (_context.Categories == null)
+            {
+                return NotFound();
+            }
+
             var category = await _context.Categories.FindAsync(id);
 
             if (category == null)
@@ -50,8 +50,6 @@ namespace CStore.Controllers
             return category;
         }
 
-        // PUT: api/Category/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCategory(int id, Category category)
         {
@@ -81,22 +79,21 @@ namespace CStore.Controllers
             return NoContent();
         }
 
-        // POST: api/Category
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<Category>> PostCategory(Category category)
         {
-          if (_context.Categories == null)
-          {
-              return Problem("Entity set 'CStoreContext.Categories'  is null.");
-          }
+            if (_context.Categories == null)
+            {
+                return Problem("Entity set 'CStoreContext.Categories'  is null.");
+            }
+
             _context.Categories.Add(category);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetCategory", new { id = category.Id }, category);
+            return CreatedAtAction("GetCategory",
+                new { id = category.Id }, category);
         }
 
-        // DELETE: api/Category/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCategory(int id)
         {
@@ -104,7 +101,9 @@ namespace CStore.Controllers
             {
                 return NotFound();
             }
+
             var category = await _context.Categories.FindAsync(id);
+
             if (category == null)
             {
                 return NotFound();

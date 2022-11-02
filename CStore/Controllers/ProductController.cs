@@ -21,25 +21,39 @@ namespace CStore.Controllers
             _context = context;
         }
 
-        // GET: api/Product
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
         {
-          if (_context.Products == null)
-          {
-              return NotFound();
-          }
-            return await _context.Products.ToListAsync();
+            if (_context.Products == null)
+            {
+                return NotFound();
+            }
+
+            List<Product> products = await _context.Products.ToListAsync();
+
+            foreach (var product in products)
+            {
+                if (product != null)
+                {
+                    product.Brand = await _context.Brands.FindAsync(
+                        product.BrandId);
+
+                    product.Category = await _context.Categories.FindAsync(
+                        product.CategoryId);
+                }
+            }
+
+            return products;
         }
 
-        // GET: api/Product/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Product>> GetProduct(int id)
         {
-          if (_context.Products == null)
-          {
-              return NotFound();
-          }
+            if (_context.Products == null)
+            {
+                return NotFound();
+            }
+
             var product = await _context.Products.FindAsync(id);
 
             if (product == null)
@@ -47,11 +61,15 @@ namespace CStore.Controllers
                 return NotFound();
             }
 
+            product.Brand = await _context.Brands.FindAsync(
+                product.BrandId);
+
+            product.Category = await _context.Categories.FindAsync(
+                product.CategoryId);
+
             return product;
         }
 
-        // PUT: api/Product/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutProduct(int id, Product product)
         {
@@ -81,22 +99,21 @@ namespace CStore.Controllers
             return NoContent();
         }
 
-        // POST: api/Product
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<Product>> PostProduct(Product product)
         {
-          if (_context.Products == null)
-          {
-              return Problem("Entity set 'CStoreContext.Products'  is null.");
-          }
+            if (_context.Products == null)
+            {
+                return Problem("Entity set 'CStoreContext.Products'  is null.");
+            }
+
             _context.Products.Add(product);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetProduct", new { id = product.Id }, product);
         }
 
-        // DELETE: api/Product/5
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProduct(int id)
         {
@@ -104,7 +121,9 @@ namespace CStore.Controllers
             {
                 return NotFound();
             }
+
             var product = await _context.Products.FindAsync(id);
+
             if (product == null)
             {
                 return NotFound();

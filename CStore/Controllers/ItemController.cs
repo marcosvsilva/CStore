@@ -21,25 +21,25 @@ namespace CStore.Controllers
             _context = context;
         }
 
-        // GET: api/Item
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Item>>> GetItems()
         {
-          if (_context.Items == null)
-          {
-              return NotFound();
-          }
+            if (_context.Items == null)
+            {
+                return NotFound();
+            }
+
             return await _context.Items.ToListAsync();
         }
 
-        // GET: api/Item/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Item>> GetItem(int id)
         {
-          if (_context.Items == null)
-          {
-              return NotFound();
-          }
+            if (_context.Items == null)
+            {
+                return NotFound();
+            }
+
             var item = await _context.Items.FindAsync(id);
 
             if (item == null)
@@ -50,8 +50,6 @@ namespace CStore.Controllers
             return item;
         }
 
-        // PUT: api/Item/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutItem(int id, Item item)
         {
@@ -81,22 +79,21 @@ namespace CStore.Controllers
             return NoContent();
         }
 
-        // POST: api/Item
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<Item>> PostItem(Item item)
         {
-          if (_context.Items == null)
-          {
-              return Problem("Entity set 'CStoreContext.Items'  is null.");
-          }
+            if (_context.Items == null)
+            {
+                return Problem("Entity set 'CStoreContext.Items'  is null.");
+            }
+
             _context.Items.Add(item);
+
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetItem", new { id = item.Id }, item);
         }
 
-        // DELETE: api/Item/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteItem(int id)
         {
@@ -104,13 +101,16 @@ namespace CStore.Controllers
             {
                 return NotFound();
             }
+
             var item = await _context.Items.FindAsync(id);
+
             if (item == null)
             {
                 return NotFound();
             }
 
             _context.Items.Remove(item);
+
             await _context.SaveChangesAsync();
 
             return NoContent();

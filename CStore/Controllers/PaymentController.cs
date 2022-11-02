@@ -21,25 +21,25 @@ namespace CStore.Controllers
             _context = context;
         }
 
-        // GET: api/Payment
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Payment>>> GetPayments()
         {
-          if (_context.Payments == null)
-          {
-              return NotFound();
-          }
+            if (_context.Payments == null)
+            {
+                return NotFound();
+            }
+
             return await _context.Payments.ToListAsync();
         }
 
-        // GET: api/Payment/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Payment>> GetPayment(int id)
         {
-          if (_context.Payments == null)
-          {
-              return NotFound();
-          }
+            if (_context.Payments == null)
+            {
+                return NotFound();
+            }
+
             var payment = await _context.Payments.FindAsync(id);
 
             if (payment == null)
@@ -50,8 +50,6 @@ namespace CStore.Controllers
             return payment;
         }
 
-        // PUT: api/Payment/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutPayment(int id, Payment payment)
         {
@@ -81,22 +79,20 @@ namespace CStore.Controllers
             return NoContent();
         }
 
-        // POST: api/Payment
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<Payment>> PostPayment(Payment payment)
         {
-          if (_context.Payments == null)
-          {
-              return Problem("Entity set 'CStoreContext.Payments'  is null.");
-          }
+            if (_context.Payments == null)
+            {
+                return Problem("Entity set 'CStoreContext.Payments'  is null.");
+            }
+
             _context.Payments.Add(payment);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetPayment", new { id = payment.Id }, payment);
         }
 
-        // DELETE: api/Payment/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePayment(int id)
         {
@@ -104,7 +100,9 @@ namespace CStore.Controllers
             {
                 return NotFound();
             }
+
             var payment = await _context.Payments.FindAsync(id);
+
             if (payment == null)
             {
                 return NotFound();

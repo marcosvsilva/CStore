@@ -15,31 +15,49 @@ namespace CStore.Controllers
     public class UserController : ControllerBase
     {
         private readonly CStoreContext _context;
+        private FavoriteController _favoriteController;
 
         public UserController(CStoreContext context)
         {
             _context = context;
+            _favoriteController = new FavoriteController(_context);
         }
 
-        // GET: api/User
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
-          if (_context.Users == null)
-          {
-              return NotFound();
-          }
-            return await _context.Users.ToListAsync();
+            if (_context.Users == null)
+            {
+                return NotFound();
+            }
+
+            List<User> users = await _context.Users.ToListAsync();
+
+            foreach (var user in users)
+            {
+                if (user != null)
+                {
+                    List<Product>? products =
+                        await _favoriteController.GetProductsByUser(user.Id);
+
+                    if (products != null)
+                    {
+                        user.Favorites = products;
+                    }
+                }
+            }
+
+            return users;
         }
 
-        // GET: api/User/5
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetUser(int id)
         {
-          if (_context.Users == null)
-          {
-              return NotFound();
-          }
+            if (_context.Users == null)
+            {
+                return NotFound();
+            }
+
             var user = await _context.Users.FindAsync(id);
 
             if (user == null)
@@ -47,11 +65,17 @@ namespace CStore.Controllers
                 return NotFound();
             }
 
+            List<Product>? products =
+                await _favoriteController.GetProductsByUser(user.Id);
+
+            if (products != null)
+            {
+                user.Favorites = products;
+            }
+
             return user;
         }
 
-        // PUT: api/User/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutUser(int id, User user)
         {
@@ -65,6 +89,8 @@ namespace CStore.Controllers
             try
             {
                 await _context.SaveChangesAsync();
+
+                await InsertFavorites(user);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -81,22 +107,22 @@ namespace CStore.Controllers
             return NoContent();
         }
 
-        // POST: api/User
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<User>> PostUser(User user)
         {
-          if (_context.Users == null)
-          {
-              return Problem("Entity set 'CStoreContext.Users'  is null.");
-          }
+            if (_context.Users == null)
+            {
+                return Problem("Entity set 'CStoreContext.Users' is null.");
+            }
+
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
+
+            await InsertFavorites(user);
 
             return CreatedAtAction("GetUser", new { id = user.Id }, user);
         }
 
-        // DELETE: api/User/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(int id)
         {
@@ -104,6 +130,7 @@ namespace CStore.Controllers
             {
                 return NotFound();
             }
+
             var user = await _context.Users.FindAsync(id);
             if (user == null)
             {
@@ -114,6 +141,40 @@ namespace CStore.Controllers
             await _context.SaveChangesAsync();
 
             return NoContent();
+        }
+
+        private async Task<ActionResult> InsertFavorites(User user)
+        {
+            if (user.Id > 0 && user.Favorites.Count > 0)
+            {
+                List<Favorite>? favoritesDelete =
+                    _favoriteController.GetFavoritesByUser(user.Id);
+
+                if (favoritesDelete != null && favoritesDelete.Count > 0)
+                {
+                    await _favoriteController.DeleteFavorites(favoritesDelete);
+                }
+
+                List<Favorite> favoritesInsert = new List<Favorite>();
+
+                foreach (var product in user.Favorites)
+                {
+                    Favorite favorite = new Favorite();
+                    favorite.UserId = user.Id;
+                    favorite.ProductId = product.Id;
+                    favoritesInsert.Add(favorite);
+                }
+
+                List<Favorite>? valid =
+                    await _favoriteController.PostFavorites(favoritesInsert);
+
+                if (valid == null || valid.Count <= 0)
+                {
+                    return Problem("Problem with insert favorites.");
+                }
+            }
+
+            return Ok();
         }
 
         private bool UserExists(int id)

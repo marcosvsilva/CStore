@@ -21,25 +21,25 @@ namespace CStore.Controllers
             _context = context;
         }
 
-        // GET: api/Brand
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Brand>>> GetBrands()
         {
-          if (_context.Brands == null)
-          {
-              return NotFound();
-          }
+            if (_context.Brands == null)
+            {
+                return NotFound();
+            }
+
             return await _context.Brands.ToListAsync();
         }
 
-        // GET: api/Brand/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Brand>> GetBrand(int id)
         {
-          if (_context.Brands == null)
-          {
-              return NotFound();
-          }
+            if (_context.Brands == null)
+            {
+                return NotFound();
+            }
+
             var brand = await _context.Brands.FindAsync(id);
 
             if (brand == null)
@@ -50,8 +50,6 @@ namespace CStore.Controllers
             return brand;
         }
 
-        // PUT: api/Brand/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutBrand(int id, Brand brand)
         {
@@ -81,22 +79,21 @@ namespace CStore.Controllers
             return NoContent();
         }
 
-        // POST: api/Brand
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<Brand>> PostBrand(Brand brand)
         {
-          if (_context.Brands == null)
-          {
-              return Problem("Entity set 'CStoreContext.Brands'  is null.");
-          }
+            if (_context.Brands == null)
+            {
+                return Problem("Entity set 'CStoreContext.Brands'  is null.");
+            }
+
             _context.Brands.Add(brand);
+
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetBrand", new { id = brand.Id }, brand);
         }
 
-        // DELETE: api/Brand/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteBrand(int id)
         {
@@ -104,13 +101,16 @@ namespace CStore.Controllers
             {
                 return NotFound();
             }
+
             var brand = await _context.Brands.FindAsync(id);
+
             if (brand == null)
             {
                 return NotFound();
             }
 
             _context.Brands.Remove(brand);
+
             await _context.SaveChangesAsync();
 
             return NoContent();
