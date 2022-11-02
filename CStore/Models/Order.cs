@@ -12,9 +12,13 @@ namespace CStore.Models
 
         public double Total { get; set; }
 
-        public User User { get; set; }
+        [ForeignKey("Products")]
+        public int UserId { get; set; }
+        public User? User { get; set; }
 
-        public Payment Payment { get; set; }
+        [ForeignKey("Payments")]
+        public int PaymentId { get; set; }
+        public Payment? Payment { get; set; }
 
         public List<Item> Items { get; set; } = new List<Item>();
     }
@@ -24,6 +28,8 @@ namespace CStore.Models
     {
         [Key]
         public int Id { get; set; }
+
+        public int? OrderId { get; set; }
 
         public int Quantity { get; set; }
 

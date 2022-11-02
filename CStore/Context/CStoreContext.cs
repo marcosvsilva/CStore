@@ -26,6 +26,11 @@ namespace CStore.Context
         public DbSet<User> Users { get; set; }
 
         public DbSet<Favorite> Favorites { get; set; }
+
+        internal Task<Payment?> FindAsync(int paymentId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
 
